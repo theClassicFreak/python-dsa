@@ -5,7 +5,8 @@ class Node:
         
     def __str__(self):
         return str(self.value)
-class SinglyLinkedList:
+    
+class CircularSinglyLinkedList:
     def __init__(self, values = None):
         self.head = Node()
         
@@ -17,6 +18,8 @@ class SinglyLinkedList:
             while tmpNode:
                 yield tmpNode
                 tmpNode = tmpNode.next
+                if (tmpNode==self.head.next):
+                    return None
     
     def __str__(self):
         values = ['|'+str(x.value)+', '+str(x.next)+'|' for x in self]
@@ -31,6 +34,8 @@ class SinglyLinkedList:
             while tmpNode:
                 result += 1
                 tmpNode = tmpNode.next
+                if (tmpNode==self.head.next):
+                    break                
         return result
     
     # add a node in any valid index
@@ -42,8 +47,13 @@ class SinglyLinkedList:
             return None
         elif (index == 0):
             tmpNode = self.head.next
-            self.head.next = newNode
-            newNode.next = tmpNode
+            if (tmpNode == None):
+                self.head.next = newNode
+                newNode.next = newNode
+            else:
+                self.getLastNode().next = newNode
+                newNode.next = tmpNode
+                self.head.next = newNode
         else:
             tmpNode = self.head.next
             count = 1
@@ -53,14 +63,20 @@ class SinglyLinkedList:
                     tmpNode.next = newNode
                     break
                 tmpNode = tmpNode.next
+                if (tmpNode == self.head.next):
+                    break                 
                 count += 1
         return self
+    
+    # return last node
+    def getLastNode(self):
+        return self.findNodeAtIndex(len(self)-1)
     
     # find all occurences of the search key
     def findIndicesOfNode(self, searchKey):
         indices = []
         tmpNode = self.head.next
-        if (tmpNode==None):
+        if (tmpNode == None):
             return indices
         count = 0
         while tmpNode:
@@ -68,6 +84,8 @@ class SinglyLinkedList:
                 indices.append(count)
             tmpNode = tmpNode.next
             count += 1
+            if (tmpNode == self.head.next):
+                break               
         return indices
     
     # find the node at a valid index
@@ -85,6 +103,8 @@ class SinglyLinkedList:
                 return tmpNode
             tmpNode = tmpNode.next
             count += 1
+            if (tmpNode == self.head.next):
+                break   
         return None
     
     # delete a node from any valid index
@@ -95,8 +115,11 @@ class SinglyLinkedList:
             print("Index out of bounds")
             return None
         elif (index == 0):
-            tmpNode = self.head.next
-            self.head.next = tmpNode.next
+            if(len(self) == 1):
+                self.head.next = None
+            else:
+                self.getLastNode().next = self.head.next.next
+                self.head.next = self.head.next.next
         else:
             if (index == len(self)-1):
                 lastNodeFlag = True
@@ -109,10 +132,12 @@ class SinglyLinkedList:
                     if (not(lastNodeFlag)):
                         tmpNode.next = tmpNode.next.next
                     else:
-                        tmpNode.next = None
+                        tmpNode.next = self.head.next
                     break
                 tmpNode = tmpNode.next
                 count += 1
+                if (tmpNode == self.head.next):
+                    break                   
         return self        
            
     # update an existing node's value
@@ -134,23 +159,27 @@ class SinglyLinkedList:
                     break
                 tmpNode = tmpNode.next
                 count += 1
+                if (tmpNode == self.head.next):
+                    break                  
         return self        
 
 
-# customLL = SinglyLinkedList()
-# customLL.addNode(100, 0)
-# customLL.addNode(130, 1)
-# customLL.addNode(490, 0)
-# customLL.addNode(190, 2)
-# customLL.addNode(300, 3)
-# customLL.addNode(100, 3)
-# customLL.addNode(290, 2)
-# customLL.addNode(200, 1)
-# print(customLL)
-# print(len(customLL))
-# print(customLL.findIndicesOfNode(100))
-# print(customLL.findNodeAtIndex(0))
-# customLL.updateNode(888, 0)    
-# customLL.removeNode(7)  
-# customLL.removeNode(0)  
-# print(customLL)
+# customCLL = CircularSinglyLinkedList()
+# customCLL.addNode(100, 0)
+# customCLL.addNode(130, 1)
+# customCLL.addNode(490, 0)
+# customCLL.addNode(190, 3)
+# customCLL.addNode(300, 3)
+# customCLL.addNode(100, 1)
+# customCLL.addNode(290, 2)
+# customCLL.addNode(200, 1)
+# print(customCLL)
+# print(len(customCLL))
+# print(customCLL.findIndicesOfNode(100))
+# print(customCLL.findNodeAtIndex(0))
+# customCLL.updateNode(888, 0)    
+# print(customCLL)
+# customCLL.removeNode(7)  
+# customCLL.removeNode(0)  
+# customCLL.removeNode(0)  
+# print(customCLL)
