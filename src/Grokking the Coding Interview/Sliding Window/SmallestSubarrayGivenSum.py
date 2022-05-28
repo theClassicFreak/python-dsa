@@ -9,6 +9,7 @@
 # Input: [2, 1, 5, 2, 3, 2], S = 7
 # Output: 2
 # Explanation: The smallest subarray with a sum great than or equal to '7' is [5, 2].
+
 # Example 2:
 
 # Input: [2, 1, 5, 2, 8], S = 7
