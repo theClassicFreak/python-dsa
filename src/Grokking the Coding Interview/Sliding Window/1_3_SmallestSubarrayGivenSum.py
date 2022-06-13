@@ -24,16 +24,16 @@
 def smallest_subarray_sum_s(arr, s):
     window_start = 0
     window_sum = 0
-    max_length = len(arr)
+    min_length = len(arr)
     for window_end in range(0, len(arr)):
         window_sum += arr[window_end]
         while window_sum >= s:
-            max_length = min(max_length, (window_end - window_start + 1))
+            min_length = min(min_length, (window_end - window_start + 1))
             window_sum -= arr[window_start]
             window_start += 1
-    if max_length == len(arr):
+    if min_length == len(arr):
         return 0
-    return max_length
+    return min_length
 
 
 def main():
