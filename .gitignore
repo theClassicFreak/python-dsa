@@ -1,3 +1,5 @@
 .PAT
 .vscode
 .gitignore
+src/test.py
+src/leetcode
